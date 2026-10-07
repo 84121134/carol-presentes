@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Carol Presentes — Perfumaria e Presentes</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link para o arquivo CSS externo -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="top">Frete grátis acima de R$ 150,00 · Entrega em Indaiatuba — SP · Embalagem de presente inclusa</div>
+    
+    <header class="header">
+        <div class="wrap head">
+                <div class="brand">Carol Presentes<small>Perfumaria & presentes</small></div>
+            <nav class="nav">
+                <a href="#colecoes">Novidades</a>
+                <a href="#catalogo">Femininos</a>
+                <a href="#catalogo">Masculinos</a>
+                <a href="#colecoes">Kits para presentear</a>
+                <a href="#catalogo">Cuidados</a>
+            </nav>
+            <div class="actions">
+                <button class="icon" onclick="document.getElementById('busca').focus()">⌕</button>
+                <div class="cartWrap">
+                    <button class="icon" onclick="openCart()">🛍</button>
+                    <span id="count" class="count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="wrap hero">
+            <div class="heroGrid heroCampaign">
+                <div class="heroCopy heroCampaignCopy">
+                    <div class="eyebrow">Perfumaria &amp; presentes · Indaiatuba</div>
+                    <h1>Encontre algo <span>especial</span></h1>
+                    <p>Perfumes, cuidados pessoais e presentes escolhidos para transformar momentos simples em algo especial.</p>
+                    <div class="buttons">
+                        <a class="btn primary" href="#catalogo">Explorar produtos →</a>
+                        <a class="btn secondary" href="https://wa.me/5519999714556" target="_blank">Falar pelo WhatsApp</a>
+                    </div>
+                </div>
+                <div class="heroArt heroCampaignArt">
+                    <div class="heroBadge">
+                        <span>Descubra</span>
+                        <strong>Perfume</strong>
+                        <small>premium</small>
+                    </div>
+                    <img src="./imag/assets/hero.png" alt="Produto de cuidado corporal" class="heroProductImage" />
+                    <button class="heroArrow left" aria-label="Anterior">‹</button>
+                    <button class="heroArrow right" aria-label="Próximo">›</button>
+                    <div class="heroDots">
+                        <span class="active"></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="quickCollections" aria-label="Categorias de produtos">
+            <div class="wrap">
+                <div class="quickCollectionGrid">
+                    <a class="quickItem" data-filter="feminino" href="#catalogo">
+                        <span class="quickIcon">🧴</span>
+                        <span>Femininos</span>
+                    </a>
+                    <a class="quickItem" data-filter="masculino" href="#catalogo">
+                        <span class="quickIcon">🧼</span>
+                        <span>Masculinos</span>
+                    </a>
+                    <a class="quickItem" data-filter="presente" href="#catalogo">
+                        <span class="quickIcon">🎁</span>
+                        <span>Kits para presentear</span>
+                    </a>
+                    <a class="quickItem" data-filter="cuidados" href="#catalogo">
+                        <span class="quickIcon">🫧</span>
+                        <span>Cuidados</span>
+                    </a>
+                    <a class="quickItem" data-filter="todos" href="#catalogo">
+                        <span class="quickIcon">⭐</span>
+                        <span>Novidades</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="campaignBanners" aria-labelledby="campaignBannersTitle">
+            <div class="wrap">
+                <div class="sectionHead">
+                    <div>
+                        <h2 id="campaignBannersTitle">Campanhas especiais</h2>
+                        <p>Encontre sua próxima fragrância favorita.</p>
+                    </div>
+                </div>
+                <div class="campaignBannerGrid">
+                    <a class="campaignBanner" href="#catalogo" aria-label="Ver produtos Eudora Siàge">
+                        <img src="./imag/assets/baner.png" alt="Campanha Eudora Siàge Ultra Bond Reset" loading="lazy">
+                    </a>
+                    <a class="campaignBanner" href="#catalogo" aria-label="Ver fragrâncias Natura">
+                        <img src="./imag/assets/baner2.png" alt="Campanha Natura Dream Sua Viagem Começa Aqui" loading="lazy">
+                    </a>
+                    <a class="campaignBanner" href="#catalogo" aria-label="Ver produtos Natura Todo Dia">
+                        <img src="./imag/assets/baner5.png" alt="Campanha Natura Tododia Pistache em Creme" loading="lazy">
+                    </a>
+                    <a class="campaignBanner" href="#catalogo" aria-label="Ver produtos Avon Care">
+                        <img src="./imag/assets/cesta 1.png" alt="Campanha Avon Care Erva Doce" loading="lazy">
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="catalogo" class="catalog">
+            <div class="wrap">
+                <div class="sectionHead">
+                    <div>
+                        <h2>Os queridinhos da nossa loja</h2>
+                        <p id="resultados">Produtos selecionados para a Carol Presentes.</p>
+                    </div>
+                    <a class="sectionLink" href="#catalogo">Ver todos →</a>
+                </div>
+                <div class="tools">
+                    <input id="busca" class="search" placeholder="Buscar perfume, marca ou produto">
+                    <button class="filter active" data-filter="todos">Todos</button>
+                    <button class="filter" data-filter="feminino">Femininos</button>
+                    <button class="filter" data-filter="masculino">Masculinos</button>
+                    <button class="filter" data-filter="presente">Kits</button>
+                    <button class="filter" data-filter="oferta">Promoções</button>
+                    <select id="sort" class="sort">
+                        <option value="relevancia">Mais relevantes</option>
+                        <option value="menor">Menor preço</option>
+                        <option value="maior">Maior preço</option>
+                    </select>
+                </div>
+                <div id="grid" class="grid"></div>
+            </div>
+        </section>
+        
+        <section class="instagram">
+            <div class="wrap">
+                <div class="sectionHead">
+                    <div>
+                        <h2>@carolpresentesindaiatuba</h2>
+                        <p>Novidades, kits e ideias para presentear.</p>
+                    </div>
+                    <a class="btn secondary" href="https://www.instagram.com/carolpresentesindaiatuba/" target="_blank">Ver Instagram</a>
+                </div>
+                <div class="instaGrid">
+                    <div class="insta">🌸</div>
+                    <div class="insta">🎁</div>
+                    <div class="insta">✨</div>
+                    <div class="insta">🌷</div>
+                    <div class="insta">🧴</div>
+                    <div class="insta">💝</div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="wrap">
+            <div class="footerGrid">
+                <div>
+                    <h3>Carol Presentes</h3>
+                    <p>Perfumaria, presentes e autocuidado em Indaiatuba — SP.</p>
+                    <p>Entrega em Indaiatuba e região · retirada combinada pelo WhatsApp.</p>
+                </div>
+                <div>
+                    <h3>Comprar</h3>
+                    <a href="#catalogo">Novidades</a>
+                    <a href="#catalogo">Femininos</a>
+                   <a href="#catalogo">Masculinos</a>
+                    <a href="#catalogo">Kits para presentear</a>
+                </div>
+                <div>
+                    <h3>Contato</h3>
+                    <a href="https://wa.me/5519999714556" target="_blank">WhatsApp</a>
+                    <a href="https://www.instagram.com/carolpresentesindaiatuba/" target="_blank">Instagram</a>
+                    <a href="#">Indaiatuba — SP</a>
+                </div>
+            </div>
+            <div class="copy">© 2026 Carol Presentes · Versão visual de demonstração. Substitua os produtos pelos itens reais antes da publicação.</div>
+        </div>
+    </footer>
+    
+    <div id="overlay" class="overlay" onclick="closeCart()"></div>
+    
+    <aside id="drawer" class="drawer">
+        <div class="drawerHead">
+            <h2>Sua sacola</h2>
+            <button class="icon" onclick="closeCart()">×</button>
+        </div>
+        <div id="cartItems" class="cartItems"></div>
+        <div class="total">Total: <span id="total">R$ 0,00</span></div>
+        <button class="checkout" onclick="checkout()">Pagar com Mercado Pago</button>
+    </aside>
+
+    <!-- Link para o arquivo JavaScript externo -->
+    <script src="style.css/js/app.js/app.js"></script>
+</body>
+</html>
