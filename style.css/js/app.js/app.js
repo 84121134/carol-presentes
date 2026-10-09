@@ -37,7 +37,7 @@ function render() {
         <div class="brandline">${product.brand}</div>
         <div class="pname">${product.name}</div>
         <div class="size">Fragrância / presente selecionado</div>
-        <div class="price">${product.old !== product.price ? `<span class="old">${money(product.old)}</span>` : ''}${money(product.price)}</div>
+        <div class="price">${product.old > product.price ? `<span class="old">${money(product.old)}</span>` : ''}${money(product.price)}</div>
         <button class="add" onclick="add(${product.id})">Adicionar à sacola</button>
       </div>
     </article>
