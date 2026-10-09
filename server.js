@@ -48,16 +48,26 @@ function readJson(request) {
 
 async function createPreference(request, response) {
     if (!process.env.MP_ACCESS_TOKEN) {
-        return sendJson(response, 500, { error: 'Configure MP_ACCESS_TOKEN no arquivo .env.' });
+        return sendJson(response, 500, { error: 'Configure um MP_ACCESS_TOKEN valido no arquivo .env.' });
     }
 
+    let payload;
     try {
-        const payload = await readJson(request);
-        if (!Array.isArray(payload.items) || !payload.items.length) {
-            return sendJson(response, 400, { error: 'A sacola esta vazia.' });
-        }
+        payload = await readJson(request);
+    } catch (error) {
+        return sendJson(response, 400, { error: error.message || 'Requisicao invalida.' });
+    }
 
-        const items = payload.items.map(item => {
+    if (!Array.isArray(payload.items) || !payload.items.length) {
+        return sendJson(response, 400, { error: 'A sacola esta vazia.' });
+    }
+
+    let items;
+    try {
+        items = payload.items.map(item => {
+            if (!item || typeof item !== 'object') {
+                throw new Error('Produto ou quantidade invalida.');
+            }
             const product = catalog[Number(item.id)];
             const quantity = Number(item.quantity);
             if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > 99) {
@@ -65,7 +75,23 @@ async function createPreference(request, response) {
             }
             return { ...product, quantity, currency_id: 'BRL' };
         });
+    } catch (error) {
+        return sendJson(response, 400, { error: error.message || 'Itens da sacola invalidos.' });
+    }
 
+    const notificationUrl = process.env.MP_NOTIFICATION_URL;
+    if (notificationUrl) {
+        try {
+            const parsedUrl = new URL(notificationUrl);
+            if (parsedUrl.protocol !== 'https:') throw new Error('URL insegura.');
+        } catch {
+            return sendJson(response, 500, {
+                error: 'MP_NOTIFICATION_URL deve ser uma URL publica valida com HTTPS; nao use um token nesse campo.'
+            });
+        }
+    }
+
+    try {
         const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
         const preference = new Preference(client);
         const result = await preference.create({
@@ -87,7 +113,33 @@ async function createPreference(request, response) {
             sandbox_init_point: result.sandbox_init_point
         });
     } catch (error) {
-        return sendJson(response, 400, { error: error.message || 'Falha ao criar pagamento.' });
+        const status = Number(error.status);
+        console.error('Falha ao criar preferencia no Mercado Pago.', {
+            error: error.name || 'Error',
+            status: Number.isInteger(status) ? status : undefined
+        });
+
+        if (status === 401) {
+            return sendJson(response, 502, {
+                error: 'Mercado Pago recusou MP_ACCESS_TOKEN. Confira se o token esta ativo e pertence a conta correta.'
+            });
+        }
+        if (status === 403) {
+            return sendJson(response, 502, {
+                error: 'A conta do Mercado Pago nao tem permissao para criar preferencias.'
+            });
+        }
+        if (error.name === 'MPConnectionError') {
+            return sendJson(response, 503, {
+                error: 'Nao foi possivel conectar ao Mercado Pago. Verifique sua conexao e tente novamente.'
+            });
+        }
+        if (Number.isInteger(status) && status >= 400) {
+            return sendJson(response, 502, {
+                error: `Mercado Pago rejeitou a criacao do checkout (HTTP ${status}). Confira APP_URL, MP_NOTIFICATION_URL e os dados da conta.`
+            });
+        }
+        return sendJson(response, 500, { error: 'Falha interna ao criar o checkout. Consulte o log do servidor.' });
     }
 }
 

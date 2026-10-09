@@ -101,7 +101,9 @@ async function checkout() {
     if (!response.ok || !preference.init_point) throw new Error(preference.error || 'Não foi possível iniciar o pagamento.');
     window.location.href = preference.init_point;
   } catch (error) {
-    alert(error.message);
+    alert(error instanceof TypeError
+      ? 'Nao foi possivel conectar a loja. Verifique sua conexao com a internet e tente novamente.'
+      : error.message);
     button.disabled = false;
     button.textContent = originalLabel;
   }
